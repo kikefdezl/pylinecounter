@@ -6,13 +6,13 @@ A package to count the lines of a Python project.
 
 ```bash
 git clone https://github.com/kikefdezl/pylinecounter
-pip install .
+pip install pylinecounter
 ```
 
 ## Usage
 
 ```bash
-python3 pylinecounter.py [-h] [--top_k TOP_K] directory
+pylinecounter [-h] [--top_k TOP_K] directory
 
 positional arguments:
   directory      Path to the directory containing a python project.

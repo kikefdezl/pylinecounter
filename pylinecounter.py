@@ -3,6 +3,8 @@ from pathlib import Path
 from dataclasses import dataclass
 import bisect
 
+IGNORE = ["venv", ".venv", "virtualenv"]
+
 
 def parse_args():
     parser = ArgumentParser()
@@ -17,6 +19,14 @@ def parse_args():
         default=3,
         type=int,
     )
+    parser.add_argument(
+        "--ignore",
+        help=f"Folders to ignore. By default: {IGNORE}",
+        default=IGNORE,
+        nargs="+",
+        type=list[str],
+    )
+
     args = parser.parse_args()
     return args
 
@@ -31,6 +41,10 @@ def main():
     args = parse_args()
     directory = Path(args.directory)
     python_files = [f for f in Path(directory).rglob("*") if f.suffix.lower() == ".py"]
+
+    print(f"Ignoring directories: {args.ignore}")
+    print()
+    python_files = [f for f in python_files if all([i not in f.as_posix() for i in args.ignore])]
 
     top_files = [File(name="dummy", n_lines=-1)]
     total_lines, total_test_lines = 0, 0
